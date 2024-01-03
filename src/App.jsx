@@ -14,6 +14,7 @@ const App = () => {
       const response = await axios.get(`https://api.weatherapi.com/v1/current.json?q=${search}&key=f993031a28854d0193594908232906`)
       setWeatherData(response.data)
       console.log(response.data)
+      setSearch('');
     } catch (error) {
       setSearch('');
       console.error(`Error fetching weather ${error}`)
@@ -31,39 +32,36 @@ const App = () => {
       <Header />
       <section className='mt-[2rem] container mx-auto'>
         <div className=''>
-          <img 
-          src={clouds} 
-          alt="clouds" 
-          className='h-[250px] w-[1000px] rounded-[100px] mx-auto'
+          <img
+            src={clouds}
+            alt="clouds"
+            className='h-[250px] w-[100%] rounded-2xl mx-auto'
           />
         </div>
-        <div className='mt-[2rem] flex justify-end gap-[1rem] mr-[20rem]'>
+        <div className='mt-[3rem] flex justify-end gap-[1rem]'>
           <input
             type="text"
             placeholder="Search"
             onChange={(e) => setSearch(e.target.value)}
-            className='border-2 border-solid border-gray-500 p-[.5rem] rounded-lg font-[500] text-gray-500'
+            className='border-2 border-solid border-gray-500 p-[.5rem] rounded-2xl font-[500] text-gray-500'
           />
           <button
             type="button"
             onClick={handleSubmit}
-            className='py-[.5rem] px-[2rem] bg-blue-300 text-gray-700 rounded-lg font-[700] hover:text-black hover:bg-gray-200'
+            className='py-[.5rem] px-[2rem] bg-blue-300 text-gray-700 rounded-2xl font-[700] hover:text-black hover:bg-gray-200'
           >
             Submit
           </button>
         </div>
-        <div>
-          {weatherData && (
-            <div>
-              <p>{weatherData.location.name}</p>
-              <p>{weatherData.location.country}</p>
-              <p>{formatDate(weatherData.location.localtime)}</p>
-              <p>{weatherData.current.temp_c}</p>
-              <p>{weatherData.current.temp_f}</p>
-              <p>{weatherData.current.condition.text}</p>
-            </div>
-          )}
-        </div>
+        {weatherData && (
+          <div className='text-center p-[1.2rem] rounded-2xl shadow-lg border-2 border-solid mt-[2rem]'>
+            <p className='text-[1.5rem] font-[700]'>{weatherData.location.name}</p>
+            <p className='text-[1.2rem]'>{weatherData.location.country}</p>
+            <p className='text-[1rem]'>Local Time: {formatDate(weatherData.location.localtime)}</p>
+            <p className='text-[2rem] my-[10px]'>{weatherData.current.temp_c}°C / {weatherData.current.temp_f}°F</p>
+            <p className='text-[1.2rem]'>{weatherData.current.condition.text}</p>
+          </div>
+        )}
       </section>
     </>
   );
